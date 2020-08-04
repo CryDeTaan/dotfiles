@@ -19,7 +19,9 @@ function header()   { echo -e "\n${BLUE}${BOLD}  $@ ${RESET}"; }
 function success()  { echo -e "${GREEN} ✔ ${RESET} $@"; }
 function error()    { echo -e "${RED} ✖ ${RESET} $@"; }
 function arrow()    { echo -e "${YELLOW} ➜ ${RESET} $@"; }
-sudo -v
+
+read -sp "Give password: " userPassword ;echo
+echo ${userPasword} | sudo -v
 
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 header Install
@@ -27,8 +29,6 @@ tempInstaller=$(mktemp)
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o $tempInstaller
 sh $tempInstaller --unattended
 success "git install done"
-user=$(whoami)
-arrow ${user}
-su - ${user} -c "chsh -s $(which zsh)"
+sudo chsh -s $(which zsh) $(whoami)
 
 zsh
